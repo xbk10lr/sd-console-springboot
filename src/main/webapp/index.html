@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="Head1">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<title>收单平台日终系统后台管理</title>
+<meta property="og:title" content="EasyUI">
+<meta property="og:description" content="HTML, CSS, JS">
+
+<!-- Meta -->
+
+<link rel="Bookmark" href="assets/default/images/logoIco.ico" />
+<link rel="Shortcut Icon" href="assets/default/images/logoIco.ico" />
+<link href="assets/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="assets/js/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/layout.css" rel="stylesheet" type="text/css" />
+
+
+</head>
+<body class="easyui-layout vui-easyui" scroll="no">
+<!-- <noscript>
+    <div class="bowerPrompt" class="bowerPrompt">
+        <img src="assets/images/noscript.gif" alt='抱歉，请开启脚本支持！' />
+    </div>
+</noscript> -->
+<!-- 头部 -->
+<div data-options="region:'north',split:false,border:false,border:false" class="viewui-navheader">
+	<!-- header start -->
+	<!-- 菜单横栏 -->
+	<ul class="viewui-navmenu"></ul>
+</div>
+<!-- // 头部 -->
+
+<!-- 左侧菜单 -->
+<div data-options="region:'west',hide:true,split:false,border:false" title="导航菜单" class="LeftMenu" id="west">
+    <div id="nav" class="easyui-accordion" data-options="fit:true,border:false"></div>
+</div>
+<!-- // 左侧菜单 -->
+
+<!-- home -->
+<div data-options="region:'center'" id="mainPanle" class="home-panel">
+	<div id="layout_center_plan" class="easyui-panel"  data-options="fit:true,style:'{overflow:hidden}',closed:false,closable:true,
+	tools:[{
+				iconCls:'refresh-panel fa fa-refresh ',
+				handler:function(){firstrefresh()}
+			}]"
+	 style="overflow:hidden">
+	</div>
+
+</div>
+<!-- // home -->
+
+<script src="assets/js/jquery2.1.1.js" type="text/javascript"></script>
+<script src="assets/js/jquery.easyui.min.js" type="text/javascript"></script>
+<script src='assets/js/index2.js' type="text/javascript"></script>
+<script src='assets/js/system.menu2.js' type="text/javascript"></script>
+<script type="text/javascript">
+
+
+//绑定 div 的鼠标事件
+$('.navmenu-item a').click(function(){
+  $('.navmenu-item a').removeClass("active");//清空已经选择的元素
+  $(this).addClass("active");
+});
+
+</script>
+</body>
+</html>

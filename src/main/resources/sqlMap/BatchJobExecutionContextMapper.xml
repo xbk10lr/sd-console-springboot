@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sd.console.mapper.BatchJobExecutionContextMapper" >
+  <resultMap id="BaseResultMap" type="sd.console.dto.generate.BatchJobExecutionContext" >
+    <id column="JOB_EXECUTION_ID" property="jobExecutionId" jdbcType="BIGINT" />
+    <result column="SHORT_CONTEXT" property="shortContext" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="sd.console.dto.generate.BatchJobExecutionContext" extends="BaseResultMap" >
+    <result column="SERIALIZED_CONTEXT" property="serializedContext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    JOB_EXECUTION_ID, SHORT_CONTEXT
+  </sql>
+  <sql id="Blob_Column_List" >
+    SERIALIZED_CONTEXT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="sd.console.dto.generate.BatchJobExecutionContextExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BATCH_JOB_EXECUTION_CONTEXT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="sd.console.dto.generate.BatchJobExecutionContextExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BATCH_JOB_EXECUTION_CONTEXT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BATCH_JOB_EXECUTION_CONTEXT
+    where JOB_EXECUTION_ID = #{jobExecutionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BATCH_JOB_EXECUTION_CONTEXT
+    where JOB_EXECUTION_ID = #{jobExecutionId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="sd.console.dto.generate.BatchJobExecutionContextExample" >
+    delete from BATCH_JOB_EXECUTION_CONTEXT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="sd.console.dto.generate.BatchJobExecutionContext" >
+    insert into BATCH_JOB_EXECUTION_CONTEXT (JOB_EXECUTION_ID, SHORT_CONTEXT, SERIALIZED_CONTEXT
+      )
+    values (#{jobExecutionId,jdbcType=BIGINT}, #{shortContext,jdbcType=VARCHAR}, #{serializedContext,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="sd.console.dto.generate.BatchJobExecutionContext" >
+    insert into BATCH_JOB_EXECUTION_CONTEXT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobExecutionId != null" >
+        JOB_EXECUTION_ID,
+      </if>
+      <if test="shortContext != null" >
+        SHORT_CONTEXT,
+      </if>
+      <if test="serializedContext != null" >
+        SERIALIZED_CONTEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobExecutionId != null" >
+        #{jobExecutionId,jdbcType=BIGINT},
+      </if>
+      <if test="shortContext != null" >
+        #{shortContext,jdbcType=VARCHAR},
+      </if>
+      <if test="serializedContext != null" >
+        #{serializedContext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="sd.console.dto.generate.BatchJobExecutionContextExample" resultType="java.lang.Integer" >
+    select count(*) from BATCH_JOB_EXECUTION_CONTEXT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    <set >
+      <if test="record.jobExecutionId != null" >
+        JOB_EXECUTION_ID = #{record.jobExecutionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.shortContext != null" >
+        SHORT_CONTEXT = #{record.shortContext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serializedContext != null" >
+        SERIALIZED_CONTEXT = #{record.serializedContext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    set JOB_EXECUTION_ID = #{record.jobExecutionId,jdbcType=BIGINT},
+      SHORT_CONTEXT = #{record.shortContext,jdbcType=VARCHAR},
+      SERIALIZED_CONTEXT = #{record.serializedContext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    set JOB_EXECUTION_ID = #{record.jobExecutionId,jdbcType=BIGINT},
+      SHORT_CONTEXT = #{record.shortContext,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="sd.console.dto.generate.BatchJobExecutionContext" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    <set >
+      <if test="shortContext != null" >
+        SHORT_CONTEXT = #{shortContext,jdbcType=VARCHAR},
+      </if>
+      <if test="serializedContext != null" >
+        SERIALIZED_CONTEXT = #{serializedContext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where JOB_EXECUTION_ID = #{jobExecutionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="sd.console.dto.generate.BatchJobExecutionContext" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    set SHORT_CONTEXT = #{shortContext,jdbcType=VARCHAR},
+      SERIALIZED_CONTEXT = #{serializedContext,jdbcType=LONGVARCHAR}
+    where JOB_EXECUTION_ID = #{jobExecutionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="sd.console.dto.generate.BatchJobExecutionContext" >
+    update BATCH_JOB_EXECUTION_CONTEXT
+    set SHORT_CONTEXT = #{shortContext,jdbcType=VARCHAR}
+    where JOB_EXECUTION_ID = #{jobExecutionId,jdbcType=BIGINT}
+  </update>
+</mapper>
