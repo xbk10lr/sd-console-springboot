@@ -54,6 +54,24 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- 开发工具：修改java代码无须重新运行 -->
+		<dependency>	   
+			<groupId>org.springframework.boot</groupId>    
+			<artifactId>spring-boot-devtools</artifactId>    
+			<optional>true</optional>
+		</dependency>
+		<!-- 分页插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>4.1.6</version>
+		</dependency>
+		<dependency>    
+		    <groupId>net.sf.json-lib</groupId>    
+		    <artifactId>json-lib</artifactId>    
+		    <version>2.4</version>    
+		    <classifier>jdk15</classifier>    
+		</dependency>
 	</dependencies>
 
 	<build>

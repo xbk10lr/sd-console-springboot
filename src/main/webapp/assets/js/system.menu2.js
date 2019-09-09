@@ -13,8 +13,9 @@ var _menus=[
     {"menuid":"00","icon":"fa-trophy","menuname":"日终任务管理",parentMenu:'0',
         "menus":[/*{"menuid":"000","menuname":"视图","icon":"fa-dashboard","url":"kanban.html"}*/
 	        	/*{"menuid":"001","menuname":"仪表盘","icon":"fa-delicious","url":"dashboard.html"}*/
-        		{"menuid":"000","menuname":"日终任务查看","icon":"fa-dashboard","url":"demo/showJob.html"},
-        		{"menuid":"001","menuname":"任务续跑","icon":"fa-delicious","url":"demo/form-success-popup1.html"}
+        		{"menuid":"000","menuname":"任务查看","icon":"fa-dashboard","url":"demo/showJob.html"},
+        		{"menuid":"001","menuname":"任务手动运行","icon":"fa-delicious","url":"demo/runJob.html"},
+        		{"menuid":"002","menuname":"任务续跑","icon":"fa-delicious","url":"demo/form-success-popup1.html"}
             ]},{
      "menuid":"01","icon":"fa-television","menuname":"表单成功案例",parentMenu:'0',
         "menus":[{"menuid":"010","menuname":"代办事项","icon":"fa-tty","url":"https://item.taobao.com/item.htm?id=545823027227"},

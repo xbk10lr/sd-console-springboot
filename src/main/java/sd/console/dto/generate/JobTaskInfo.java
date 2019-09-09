@@ -60,4 +60,10 @@ public class JobTaskInfo {
     public void setTaskStatus(String taskStatus) {
         this.taskStatus = taskStatus == null ? null : taskStatus.trim();
     }
+
+	@Override
+	public String toString() {
+		return "JobTaskInfo [id=" + id + ", taskName=" + taskName + ", taskExpress=" + taskExpress + ", taskParam="
+				+ taskParam + ", sysId=" + sysId + ", taskStatus=" + taskStatus + "]";
+	}
 }

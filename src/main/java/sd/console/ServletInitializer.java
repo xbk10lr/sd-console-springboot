@@ -1,4 +1,4 @@
-package sd.console.base;
+package sd.console;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
