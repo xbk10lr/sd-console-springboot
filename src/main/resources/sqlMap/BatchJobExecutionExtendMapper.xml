@@ -19,13 +19,19 @@
     A.CREATE_TIME,A.START_TIME,A.END_TIME,A.STATUS,
     A.EXIT_CODE,A.EXIT_MESSAGE,A.LAST_UPDATED
     from BATCH_JOB_EXECUTION A,BATCH_JOB_INSTANCE B
-    where  B.JOB_NAME = #{jobName,jdbcType=VARCHAR}
-    and A.JOB_INSTANCE_ID = B.JOB_INSTANCE_ID
+    where  A.JOB_INSTANCE_ID = B.JOB_INSTANCE_ID
+    <if test="jobName != null" >
+     and B.JOB_NAME = #{jobName,jdbcType=VARCHAR}
+    </if>
+    <if test="jobInstanceId != null" >
+    	and B.JOB_INSTANCE_ID = #{jobInstanceId,jdbcType=BIGINT}
+    </if>
     <if test="startDate != null" >
     	and A.CREATE_TIME <![CDATA[>=]]> #{startDate,jdbcType=DATE}
     </if>
     <if test="endDate != null" >
     	and A.CREATE_TIME <![CDATA[<=]]> #{endDate,jdbcType=DATE}
     </if>
+    order by JOB_INSTANCE_ID
   </select>
 </mapper>

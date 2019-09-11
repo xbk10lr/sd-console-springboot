@@ -1,15 +1,20 @@
 package sd.console.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import sd.console.dto.common.BatchJobRunStatus;
+import sd.console.dto.generate.BatchStepExecution;
+import sd.console.dto.generate.BatchStepExecutionExample;
 import sd.console.dto.generate.JobTaskInfo;
 import sd.console.dto.generate.JobTaskInfoExample;
+import sd.console.mapper.BatchStepExecutionMapper;
 import sd.console.mapper.JobTaskInfoMapper;
 import sd.console.mapper.extend.BatchJobExecutionExtendMapper;
 import sd.console.mapper.extend.JobTaskInfoExtendMapper;
@@ -19,6 +24,8 @@ import sd.console.util.DateUtil;
 @Service
 public class JobServiceImpl implements JobService {
 
+	static final String url="http://localhost:8080/jobs/";
+	
 	@Autowired
 	JobTaskInfoMapper jobTaskInfoMapper;
 	
@@ -27,6 +34,12 @@ public class JobServiceImpl implements JobService {
 	
 	@Autowired
 	BatchJobExecutionExtendMapper batchJobExecutionExtendMapper;
+	
+	@Autowired
+	BatchStepExecutionMapper batchStepExecutionMapper;
+	
+	@Autowired
+	HttpService httpService;
 	
 	@Override
 	public List<JobTaskInfo> getAllJobs(Integer page,Integer limit) {
@@ -53,18 +66,55 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public void addJob(JobTaskInfo jobTaskInfo) {
+	public void addJob(JobTaskInfo jobTaskInfo) throws Exception {
+		//如果任务状态为开启，则需要在定时任务中注册
+		if("0".equals(jobTaskInfo.getTaskStatus())){
+			Map<String,String> map = new HashMap<>();
+			map.put("expression", jobTaskInfo.getTaskExpress());
+			map.put("jobName", jobTaskInfo.getTaskName());
+			if(!httpService.send(url+"create", map)){
+				throw new Exception("通信失败");
+			}
+		}
 		jobTaskInfoMapper.insertSelective(jobTaskInfo);
+		
 	}
 
 	@Override
-	public void delJob(Integer id) {
-		jobTaskInfoMapper.deleteByPrimaryKey(id);		
+	public Boolean delJob(Integer id) {
+		//首先在定时任务中去掉该定时任务
+		JobTaskInfo jobTaskInfo = jobTaskInfoMapper.selectByPrimaryKey(id);
+		Map<String,String> map = new HashMap<>();
+		map.put("jobName", jobTaskInfo.getTaskName());
+		if(httpService.send(url+"stop", map)){
+			jobTaskInfoMapper.deleteByPrimaryKey(id);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public void updateJob(JobTaskInfo jobTaskInfo) {
-		jobTaskInfoMapper.updateByPrimaryKeySelective(jobTaskInfo);		
+	public void updateJob(JobTaskInfo jobTaskInfo) throws Exception {
+		//如果任务状态被更新为关闭，则停止定时运行该任务
+		if("1".equals(jobTaskInfo.getTaskStatus())){
+			Map<String,String> map = new HashMap<>();
+			map.put("jobName", jobTaskInfo.getTaskName());
+			if(httpService.send(url+"stop", map)){
+				jobTaskInfoMapper.updateByPrimaryKeySelective(jobTaskInfo);		
+			} else {
+				throw new Exception("通信失败");
+			}
+		} else{
+			Map<String,String> map = new HashMap<>();
+			map.put("expression", jobTaskInfo.getTaskExpress());
+			map.put("jobName", jobTaskInfo.getTaskName());
+			if(httpService.send(url+"create", map)){
+				jobTaskInfoMapper.updateByPrimaryKeySelective(jobTaskInfo);		
+			} else {
+				throw new Exception("通信失败");
+			}
+		}
 	}
 
 	@Override
@@ -94,12 +144,19 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public List<BatchJobRunStatus> getJobRunStatus(String jobName,Date startDate,Date endDate,Integer page, Integer limit) {
+	public List<BatchJobRunStatus> getJobRunStatus(String jobName, Long jobInstanceId, Date startDate,Date endDate,Integer page, Integer limit) {
 		if(endDate!=null){
 			endDate = DateUtil.addDate(endDate, 0, 0, 1, 0, 0, 0, 0);
 			log.info(endDate.toString());
 		}
-		return batchJobExecutionExtendMapper.getJobRunStatus(jobName, startDate, endDate);
+		return batchJobExecutionExtendMapper.getJobRunStatus(jobName, jobInstanceId, startDate, endDate);
+	}
+
+	@Override
+	public List<BatchStepExecution> getStepRunStatus(Long jobExecutionId, Integer page, Integer limit) {
+		BatchStepExecutionExample example = new BatchStepExecutionExample();
+		example.createCriteria().andJobExecutionIdEqualTo(jobExecutionId);
+		return batchStepExecutionMapper.selectByExample(example);
 	}
 
 }

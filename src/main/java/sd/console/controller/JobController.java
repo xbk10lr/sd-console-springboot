@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import sd.console.dto.common.BatchJobRunStatus;
+import sd.console.dto.generate.BatchStepExecution;
 import sd.console.dto.generate.JobTaskInfo;
 import sd.console.service.JobService;
 
@@ -90,18 +91,35 @@ public class JobController {
 	}
 	
 	@RequestMapping("/delJob")
-    public String delJob(Integer id){
+    public Boolean delJob(Integer id){
 		log.info(id.toString());
-    	jobService.delJob(id);
-    	return "true";
+    	return jobService.delJob(id);
     }
 	
 	@RequestMapping("/getJobRunStatus")
-    public String getJobRunStatus(String taskName,Date startDate,Date endDate,Integer page,Integer rows){
-		log.info("taskName:"+taskName+",startDate:"+startDate+",endDate:"+endDate);
+    public String getJobRunStatus(String taskName,Long jobInstanceId, Date startDate,Date endDate,Integer page,Integer rows){
+		log.info("taskName:"+taskName+",jobInstanceId:"+jobInstanceId+",startDate:"+startDate+",endDate:"+endDate);
 		PageHelper.startPage(page, rows);//设置数据库分页查询的范围
-    	List<BatchJobRunStatus> allJobStatus = jobService.getJobRunStatus(taskName, startDate, endDate, page, rows);
+		if(taskName==""){
+			taskName=null;
+		}
+    	List<BatchJobRunStatus> allJobStatus = jobService.getJobRunStatus(taskName,jobInstanceId, startDate, endDate, page, rows);
     	PageInfo<BatchJobRunStatus> pageInfo=new PageInfo<>(allJobStatus);
+		Map<String,Object> m=new HashMap<String,Object>();
+		m.put("total", pageInfo.getTotal());
+		m.put("rows", allJobStatus);
+		JSONArray js=JSONArray.fromObject(m);
+		String res = js.toString();
+		log.info(res);
+    	return res.substring(1, res.length()-1);
+    }
+	
+	@RequestMapping("/getStepRunStatus")
+    public String getStepRunStatus(Long jobExecutionId,Integer page,Integer rows){
+		log.info("jobExecutionId:"+jobExecutionId);
+		PageHelper.startPage(page, rows);//设置数据库分页查询的范围
+    	List<BatchStepExecution> allJobStatus = jobService.getStepRunStatus(jobExecutionId, page, rows);
+    	PageInfo<BatchStepExecution> pageInfo=new PageInfo<>(allJobStatus);
 		Map<String,Object> m=new HashMap<String,Object>();
 		m.put("total", pageInfo.getTotal());
 		m.put("rows", allJobStatus);

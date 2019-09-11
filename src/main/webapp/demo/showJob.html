@@ -34,10 +34,9 @@
 	    	taskId:$('#taskId').val()
 	    });
 	};
-	$(document).ready(function(){
+	function addData(){
 		//新增数据
-		$('#newData').on('click', function(){
-			$('#vui_sample').form('clear');
+			$('#fm').form('clear');
 			$('#id').textbox({readonly:false});
 		  	$('#taskName1').textbox({readonly:false});
 			url="../jobs/addJob";
@@ -48,8 +47,9 @@
 				content:$('#newData-wrapper'),
 				zIndex:1000
 			});
-		});
-		
+	}
+	
+	$(document).ready(function(){
 	 	url = '../jobs/getAllJobs';
 		 $('#dg').datagrid({
 		   	   url:url
@@ -77,13 +77,10 @@
 			zIndex:1000
 		});
 	  }
-	
 	function submitForm(){
-	  	$('#vui_sample').form('submit', {    
-		    url:url,    
-		   /*  onSubmit: function(){  
-			  //表单验证  
-		    },     */
+	  	$('#fm').form('submit', {    
+		    url:url,
+		    async:true,
 		    success:function(data){
 		    	if(data == "true"){
 		    		window.location.reload();
@@ -95,7 +92,7 @@
 	  }
 	
 	function clearForm(){
-		$('#vui_sample').form('clear');
+		$('#fm').form('clear');
 	}
 	
 	function delData(){
@@ -109,7 +106,7 @@
 						alert("删除成功！");
 						$("#dg").datagrid("reload");
 					}else{
-						
+						alert("删除失败！");
 					}
 					
 				},"json");    
@@ -140,7 +137,7 @@
 					</div>
 				</div>
 				<div class="btnbar-tools">
-					<a href="javascript:;" class="easyui-linkbutton" id="newData"><i class="fa fa-plus-square success"></i>添加</a>
+					<a href="javascript:;" class="easyui-linkbutton" onclick="addData()" id="newData"><i class="fa fa-plus-square success"></i>添加</a>
 					<a href="javascript:;" class="easyui-linkbutton" onclick="editData()"><i class="fa fa-pencil-square info"></i>编辑</a>
 					<a href="javascript:;" class="easyui-linkbutton" onclick="delData()"><i class="fa fa-times-rectangle danger"></i>删除</a>
 				</div>
@@ -169,7 +166,7 @@
 			<!-- 新增和编辑数据 -->
 		<div class="dig-wrapper" id="newData-wrapper">
 	<div class="form2-column" title="表单示例">
-		<form id="vui_sample" class="easyui-form" method="post">
+		<form id="fm" class="easyui-form" method="post">
 			<div class="form-column2">
 				<div class="form-column-left">
 					<input id="id" class="easyui-textbox" name="id" style="width:100%" data-options="label:'任务编号:',required:true">

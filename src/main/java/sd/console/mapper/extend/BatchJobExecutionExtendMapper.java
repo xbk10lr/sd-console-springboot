@@ -9,5 +9,5 @@ import sd.console.dto.common.BatchJobRunStatus;
 
 public interface BatchJobExecutionExtendMapper {
 	
-	public List<BatchJobRunStatus> getJobRunStatus(@Param("jobName")String jobName,@Param("startDate")Date startDate,@Param("endDate")Date endDate);
+	public List<BatchJobRunStatus> getJobRunStatus(@Param("jobName")String jobName,@Param("jobInstanceId")Long jobInstanceId,@Param("startDate")Date startDate,@Param("endDate")Date endDate);
 }

@@ -27,30 +27,34 @@
 	var url;
 	
 	function doSearch(){
-		if($('#taskName').val()==null || $('#taskName').val()==""){
+		/* if($('#taskName').val()==null || $('#taskName').val()==""){
 			alert("请输入任务名称！");
 			return;
-		}
+		} */
 		url = '../jobs/getJobRunStatus';
 		$('#dg').datagrid("options").url =url;
 		if(($('#startDate').val()==null || $('#startDate').val()=="")
 			&& ($('#endDate').val()==null || $('#endDate').val()=="")){
 			$('#dg').datagrid('load',{
-		    	taskName:$('#taskName').val()
+		    	taskName:$('#taskName').val(),
+		    	jobInstanceId:$('#jobInstanceId').val()
 		    });
 		}else if($('#startDate').val()==null || $('#startDate').val()==""){
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
+		    	jobInstanceId:$('#jobInstanceId').val(),
 		    	startDate:$('#startDate').val()
 		    });
 		}else if($('#endDate').val()==null || $('#endDate').val()==""){
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
+		    	jobInstanceId:$('#jobInstanceId').val(),
 		    	startDate:$('#endDate').val()
 		    });
 		}else{
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
+		    	jobInstanceId:$('#jobInstanceId').val(),
 		    	startDate:$('#startDate').val(),
 		    	endDate:$('#endDate').val()
 		    });
@@ -70,7 +74,7 @@
 		 if(row){
 		 	$.messager.confirm('确认','确定要手动运行该队列？',function(r){    
 		    if (r){    
-		        $.post('http://localhost:8080/jobs/restart',{jobName:row.taskName},function(data){
+		        $.post('http://localhost:8080/jobs/restart',{jobName:row.jobName},function(data){
 		        	 if(data)
 					{
 						alert("执行成功！");
@@ -83,6 +87,36 @@
 		}); 
 		 }
 	  }
+	 
+	 function continueJob(){
+		 var row=$("#dg2").datagrid("getSelected");
+		 if(row){
+			 	$.messager.confirm('确认','确定要在失败步点续跑该队列？',function(r){    
+			    if (r){    
+			        $.post('http://localhost:8080/jobs/continue',{jobExecutionId:row.jobExecutionId},function(data){
+			        	 if(data)
+						{
+							alert("执行成功！");
+						}else{
+							alert("执行失败！");
+						}
+						
+					},"json");    
+			    }    
+			}); 
+			 }
+	 }
+	 
+	 function showStepStatus(){
+	  	 var row=$("#dg").datagrid("getSelected");
+	  	 $("#dlg").dialog({title:row.jobName+'任务详情'});
+	  	 $("#dlg").dialog({closed:false});
+		 $('#dg2').datagrid("options").url ='../jobs/getStepRunStatus';
+	  	 $('#dg2').datagrid('load',{
+	  		jobExecutionId:row.jobExecutionId
+	     });
+	 }
+	 
 </script>
 </head>
 <body scroll="no" class="body-pd10">
@@ -93,7 +127,8 @@
 				<div class="comp-search-box">
 					<div class="screen-top">
 						<div class="colRow">
-							<input id="taskName" type="text" class="easyui-textbox" label="任务名称" required="required"/>
+							<input id="taskName" type="text" class="easyui-textbox" label="任务名称"/>
+							<input id="jobInstanceId" type="text" class="easyui-textbox" label="任务实例编号"/>
 							<input id="startDate" type="text" class="easyui-datebox" label="起始日期" />
 							<input id="endDate" type="text" class="easyui-datebox" label="结束日期" />
 						</div>
@@ -106,6 +141,7 @@
 				</div>
 				<div class="btnbar-tools">
 					<a href="javascript:;" class="easyui-linkbutton" onclick="runJob()"><i class="fa fa-check-circle yellow"></i>任务重跑</a>
+					<a href="javascript:;" class="easyui-linkbutton" onclick="showStepStatus()"><i class="fa fa-check-circle yellow"></i>查看详情</a>
 				</div>
 			</div>
 			<table id="dg" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb">
@@ -114,8 +150,8 @@
 				        <!-- <th class="checkbox-wh">
 				            <input type="checkbox" class="checkbox" id="SelectAll" value="全选" onclick="selectAll();"/> 
 				        </th> -->
-			            <th field="jobExecutionId" width="100">任务执行编号</th>
 				        <th field="jobInstanceId" width="100">任务实例编号</th>
+			            <th field="jobExecutionId" width="100">任务执行编号</th>
 				        <th field="jobName" width="100">任务名称</th>
 				        <th field="createTime" width="100" formatter="formatterDate">创建时间</th>
 				        <th field="startTime" width="100" formatter="formatterDate">开始时间</th>
@@ -133,7 +169,28 @@
 				">
 			</div> -->
 		</div>
-	
+	<div id="dlg" title="任务详情" class="easyui-dialog" style="width:1000px;height:500px;background:gray" data-options="buttons:'#btns',closed:true">
+		<div id="tb2">
+				<div class="btnbar-tools">
+					<a href="javascript:;" class="easyui-linkbutton" onclick="continueJob()"><i class="fa fa-check-circle yellow"></i>任务续跑</a>
+				</div>
+			</div>
+		<table id="dg2" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb2">
+				<thead>
+				    <tr>
+			            <th field="jobExecutionId" width="100">任务执行编号</th>
+				        <th field="stepExecutionId" width="100">步点执行编号</th>
+				        <th field="stepName" width="100">步点名称</th>
+				        <th field="startTime" width="100" formatter="formatterDate">开始时间</th>
+				        <th field="endTime" width="100" formatter="formatterDate">结束时间</th>
+				        <th field="status" width="100" formatter="formatterStatus">执行状态</th>
+				        <th field="exitCode" width="100" formatter="formatterExitCode">退出状态</th>
+				        <th field="exitMessage" width="100">退出信息</th>
+				        <th field="lastUpdated" width="100" formatter="formatterDate">最后更新时间</th>
+				    </tr>
+				</thead>
+			</table>
+    </div>
 	</div>
 	
 </div>
