@@ -1,5 +1,6 @@
 package sd.console.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +14,13 @@ import com.github.pagehelper.PageInfo;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
+import sd.console.dto.common.BatchJobRunStatus;
 import sd.console.dto.generate.JobTaskInfo;
 import sd.console.service.JobService;
 
 @Slf4j
 @RestController
-@RequestMapping("/showJob")
+@RequestMapping("/jobs")
 public class JobController {
 
 	@Autowired
@@ -92,5 +94,20 @@ public class JobController {
 		log.info(id.toString());
     	jobService.delJob(id);
     	return "true";
+    }
+	
+	@RequestMapping("/getJobRunStatus")
+    public String getJobRunStatus(String taskName,Date startDate,Date endDate,Integer page,Integer rows){
+		log.info("taskName:"+taskName+",startDate:"+startDate+",endDate:"+endDate);
+		PageHelper.startPage(page, rows);//设置数据库分页查询的范围
+    	List<BatchJobRunStatus> allJobStatus = jobService.getJobRunStatus(taskName, startDate, endDate, page, rows);
+    	PageInfo<BatchJobRunStatus> pageInfo=new PageInfo<>(allJobStatus);
+		Map<String,Object> m=new HashMap<String,Object>();
+		m.put("total", pageInfo.getTotal());
+		m.put("rows", allJobStatus);
+		JSONArray js=JSONArray.fromObject(m);
+		String res = js.toString();
+		log.info(res);
+    	return res.substring(1, res.length()-1);
     }
 }

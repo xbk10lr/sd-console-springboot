@@ -22,11 +22,12 @@
 <script src="../assets/js/jquery.easyui.min.js" type="text/javascript"></script>
 <script src="../assets/js/layer.js" type="text/javascript"></script>
 <script src="../assets/js/custom.js" type="text/javascript"></script>
+<script src="../assets/js/formatter.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var url;
 	
 	function doSearch(){
-		url = '../showJob/searchJob';
+		url = '../jobs/searchJob';
 		$('#dg').datagrid("options").url =url;
 	    $('#dg').datagrid('load',{
 	    	taskName:$('#taskName').val(),
@@ -39,7 +40,7 @@
 			$('#vui_sample').form('clear');
 			$('#id').textbox({readonly:false});
 		  	$('#taskName1').textbox({readonly:false});
-			url="../showJob/addJob";
+			url="../jobs/addJob";
 			layer.open({
 				type: 1,
 				skin: 'layui-layer-rim', //加上边框
@@ -49,7 +50,7 @@
 			});
 		});
 		
-	 	url = '../showJob/getAllJobs';
+	 	url = '../jobs/getAllJobs';
 		 $('#dg').datagrid({
 		   	   url:url
 		   });
@@ -67,7 +68,7 @@
 	  	$('#taskName1').textbox({readonly:true});
 	  	$('#id').textbox('textbox').css('background','#ccc');
 	  	$('#taskName1').textbox('textbox').css('background','#ccc');
-	  	url="../showJob/updateJob";
+	  	url="../jobs/updateJob";
 	  	layer.open({
 			type: 1,
 			skin: 'layui-layer-rim', //加上边框
@@ -102,7 +103,7 @@
 		 if(row){
 		 	$.messager.confirm('确认','您确认想要删除记录吗？',function(r){    
 		    if (r){    
-		        $.post('../showJob/delJob',{id:row.id},function(data){
+		        $.post('../jobs/delJob',{id:row.id},function(data){
 					if(data)
 					{
 						alert("删除成功！");
@@ -116,13 +117,6 @@
 		}); 
 		 }
 	  }
-	function formatterTaskStatus(value, row, index){
-		if(row.taskStatus==0){
-			return "开启";
-		}else if(row.taskStatus==1){
-			return "关闭";
-		}
-	}
 </script>
 </head>
 <body scroll="no" class="body-pd10">

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sd.console.mapper.extend.BatchJobExecutionExtendMapper" >
+  <resultMap id="BaseResultMap" type="sd.console.dto.common.BatchJobRunStatus" >
+    <result column="JOB_EXECUTION_ID" property="jobExecutionId" jdbcType="BIGINT" />
+    <result column="JOB_INSTANCE_ID" property="jobInstanceId" jdbcType="BIGINT" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="EXIT_CODE" property="exitCode" jdbcType="VARCHAR" />
+    <result column="EXIT_MESSAGE" property="exitMessage" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATED" property="lastUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getJobRunStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    A.JOB_EXECUTION_ID,A.JOB_INSTANCE_ID,B.JOB_NAME,
+    A.CREATE_TIME,A.START_TIME,A.END_TIME,A.STATUS,
+    A.EXIT_CODE,A.EXIT_MESSAGE,A.LAST_UPDATED
+    from BATCH_JOB_EXECUTION A,BATCH_JOB_INSTANCE B
+    where  B.JOB_NAME = #{jobName,jdbcType=VARCHAR}
+    and A.JOB_INSTANCE_ID = B.JOB_INSTANCE_ID
+    <if test="startDate != null" >
+    	and A.CREATE_TIME <![CDATA[>=]]> #{startDate,jdbcType=DATE}
+    </if>
+    <if test="endDate != null" >
+    	and A.CREATE_TIME <![CDATA[<=]]> #{endDate,jdbcType=DATE}
+    </if>
+  </select>
+</mapper>

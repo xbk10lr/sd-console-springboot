@@ -1,7 +1,9 @@
 package sd.console.service;
 
+import java.util.Date;
 import java.util.List;
 
+import sd.console.dto.common.BatchJobRunStatus;
 import sd.console.dto.generate.JobTaskInfo;
 import sd.console.dto.generate.JobTaskInfoExample;
 
@@ -22,4 +24,6 @@ public interface JobService {
 	public int getNums();
 
 	int getNumsByExample(JobTaskInfoExample example);
+	
+	 List<BatchJobRunStatus> getJobRunStatus(String jobName,Date startDate,Date endDate,Integer page,Integer limit);
 }

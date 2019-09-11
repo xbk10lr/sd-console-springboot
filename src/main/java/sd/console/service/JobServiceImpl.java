@@ -1,15 +1,19 @@
 package sd.console.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import sd.console.dto.common.BatchJobRunStatus;
 import sd.console.dto.generate.JobTaskInfo;
 import sd.console.dto.generate.JobTaskInfoExample;
 import sd.console.mapper.JobTaskInfoMapper;
+import sd.console.mapper.extend.BatchJobExecutionExtendMapper;
 import sd.console.mapper.extend.JobTaskInfoExtendMapper;
+import sd.console.util.DateUtil;
 
 @Slf4j
 @Service
@@ -20,6 +24,9 @@ public class JobServiceImpl implements JobService {
 	
 	@Autowired
 	JobTaskInfoExtendMapper jobTaskInfoExtendMapper;
+	
+	@Autowired
+	BatchJobExecutionExtendMapper batchJobExecutionExtendMapper;
 	
 	@Override
 	public List<JobTaskInfo> getAllJobs(Integer page,Integer limit) {
@@ -84,6 +91,15 @@ public class JobServiceImpl implements JobService {
 	public int getNumsByExample(JobTaskInfoExample example) {
 		int countByExample = jobTaskInfoMapper.countByExample(example);
 		return countByExample;
+	}
+
+	@Override
+	public List<BatchJobRunStatus> getJobRunStatus(String jobName,Date startDate,Date endDate,Integer page, Integer limit) {
+		if(endDate!=null){
+			endDate = DateUtil.addDate(endDate, 0, 0, 1, 0, 0, 0, 0);
+			log.info(endDate.toString());
+		}
+		return batchJobExecutionExtendMapper.getJobRunStatus(jobName, startDate, endDate);
 	}
 
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="description" content="HTML, CSS, js">
 
-<title>任务手动运行</title>
+<title>任务运行状态查询</title>
 <meta property="og:url" content="">
 <meta property="og:title" content="EasyUI">
 <meta property="og:description" content="HTML, CSS, JS">
@@ -27,20 +27,43 @@
 	var url;
 	
 	function doSearch(){
-		url = '../jobs/searchJob';
+		if($('#taskName').val()==null || $('#taskName').val()==""){
+			alert("请输入任务名称！");
+			return;
+		}
+		url = '../jobs/getJobRunStatus';
 		$('#dg').datagrid("options").url =url;
-	    $('#dg').datagrid('load',{
-	    	taskName:$('#taskName').val(),
-	    	taskId:$('#taskId').val()
-	    });
+		if(($('#startDate').val()==null || $('#startDate').val()=="")
+			&& ($('#endDate').val()==null || $('#endDate').val()=="")){
+			$('#dg').datagrid('load',{
+		    	taskName:$('#taskName').val()
+		    });
+		}else if($('#startDate').val()==null || $('#startDate').val()==""){
+			$('#dg').datagrid('load',{
+		    	taskName:$('#taskName').val(),
+		    	startDate:$('#startDate').val()
+		    });
+		}else if($('#endDate').val()==null || $('#endDate').val()==""){
+			$('#dg').datagrid('load',{
+		    	taskName:$('#taskName').val(),
+		    	startDate:$('#endDate').val()
+		    });
+		}else{
+			$('#dg').datagrid('load',{
+		    	taskName:$('#taskName').val(),
+		    	startDate:$('#startDate').val(),
+		    	endDate:$('#endDate').val()
+		    });
+		}
+	    
 	};
-	$(document).ready(function(){
-	 	url = '../jobs/getAllJobs';
+	/* $(document).ready(function(){
+	 	url = '../showJob/getAllJobs';
 		 $('#dg').datagrid({
 		   	   url:url
 		   });
 		
-	});
+	}); */
 	
 	function runJob(){
 	  	 var row=$("#dg").datagrid("getSelected");
@@ -70,10 +93,9 @@
 				<div class="comp-search-box">
 					<div class="screen-top">
 						<div class="colRow">
-							<input id="taskName" type="text" class="easyui-textbox" label="任务名称" />
-						</div>
-						<div class="colRow">
-							<input id="taskId" type="text" class="easyui-textbox" label="任务编号" />
+							<input id="taskName" type="text" class="easyui-textbox" label="任务名称" required="required"/>
+							<input id="startDate" type="text" class="easyui-datebox" label="起始日期" />
+							<input id="endDate" type="text" class="easyui-datebox" label="结束日期" />
 						</div>
 						<div class="colRow">
 							<button class="easyui-linkbutton btnDefault" onclick="doSearch()">
@@ -83,7 +105,7 @@
 					</div>
 				</div>
 				<div class="btnbar-tools">
-					<a href="javascript:;" class="easyui-linkbutton" onclick="runJob()"><i class="fa fa-check-circle yellow"></i>运行</a>
+					<a href="javascript:;" class="easyui-linkbutton" onclick="runJob()"><i class="fa fa-check-circle yellow"></i>任务重跑</a>
 				</div>
 			</div>
 			<table id="dg" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb">
@@ -92,12 +114,16 @@
 				        <!-- <th class="checkbox-wh">
 				            <input type="checkbox" class="checkbox" id="SelectAll" value="全选" onclick="selectAll();"/> 
 				        </th> -->
-			            <th field="id" width="100">任务编号</th>
-				        <th field="taskName" width="100">任务名</th>
-				        <th field="taskExpress" width="100">定时任务表达式</th>
-				        <th field="taskParam" width="100">任务参数</th>
-				        <th field="sysId" width="100">系统号</th>
-				        <th field="taskStatus" formatter="formatterTaskStatus" width="100">任务状态</th>
+			            <th field="jobExecutionId" width="100">任务执行编号</th>
+				        <th field="jobInstanceId" width="100">任务实例编号</th>
+				        <th field="jobName" width="100">任务名称</th>
+				        <th field="createTime" width="100" formatter="formatterDate">创建时间</th>
+				        <th field="startTime" width="100" formatter="formatterDate">开始时间</th>
+				        <th field="endTime" width="100" formatter="formatterDate">结束时间</th>
+				        <th field="status" width="100" formatter="formatterStatus">执行状态</th>
+				        <th field="exitCode" width="100" formatter="formatterExitCode">退出状态</th>
+				        <th field="exitMessage" width="100">退出信息</th>
+				        <th field="lastUpdated" width="100" formatter="formatterDate">最后更新时间</th>
 				    </tr>
 				</thead>
 			</table>
