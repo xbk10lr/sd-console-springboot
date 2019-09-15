@@ -49,7 +49,7 @@
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
 		    	jobInstanceId:$('#jobInstanceId').val(),
-		    	startDate:$('#endDate').val()
+		    	endDate:$('#endDate').val()
 		    });
 		}else{
 			$('#dg').datagrid('load',{
@@ -69,7 +69,8 @@
 		
 	}); */
 	
-	function runJob(){
+	function runJob(data){
+		 $('#dg').datagrid('selectRow',data);
 	  	 var row=$("#dg").datagrid("getSelected");
 		 if(row){
 		 	$.messager.confirm('确认','确定要手动运行该队列？',function(r){    
@@ -88,7 +89,8 @@
 		 }
 	  }
 	 
-	 function continueJob(){
+	 function continueJob(data){
+		 $('#dg').datagrid('selectRow',data);
 		 var row=$("#dg2").datagrid("getSelected");
 		 if(row){
 			 	$.messager.confirm('确认','确定要在失败步点续跑该队列？',function(r){    
@@ -107,7 +109,8 @@
 			 }
 	 }
 	 
-	 function showStepStatus(){
+	 function showStepStatus(data){
+		 $('#dg').datagrid('selectRow',data);
 	  	 var row=$("#dg").datagrid("getSelected");
 	  	 $("#dlg").dialog({title:row.jobName+'任务详情'});
 	  	 $("#dlg").dialog({closed:false});
@@ -117,6 +120,20 @@
 	     });
 	 }
 	 
+	 function operate_formatter(value, row, index) {
+         return "\
+			<a href='javascript:;' class='easyui-linkbutton'  onclick='runJob("+index+")'><i class='fa fa-check-circle yellow'></i>任务重跑</a>\
+			<a href='javascript:;' class='easyui-linkbutton'  onclick='showStepStatus("+index+")'><i class='fa fa-check-circle yellow'></i>查看详情</a>\
+		";
+     }
+	 
+	 function operate_formatter2(value, row, index) {
+		 if(row.status=='FAILED'){
+	        return "\
+	        <a href='javascript:;' class='easyui-linkbutton' onclick='continueJob("+index+")'><i class='fa fa-check-circle yellow'></i>任务续跑</a>\
+	        ";
+		 }
+     }
 </script>
 </head>
 <body scroll="no" class="body-pd10">
@@ -139,10 +156,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="btnbar-tools">
+				<!-- <div class="btnbar-tools">
 					<a href="javascript:;" class="easyui-linkbutton" onclick="runJob()"><i class="fa fa-check-circle yellow"></i>任务重跑</a>
 					<a href="javascript:;" class="easyui-linkbutton" onclick="showStepStatus()"><i class="fa fa-check-circle yellow"></i>查看详情</a>
-				</div>
+				</div> -->
 			</div>
 			<table id="dg" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb">
 				<thead>
@@ -160,6 +177,7 @@
 				        <th field="exitCode" width="100" formatter="formatterExitCode">退出状态</th>
 				        <th field="exitMessage" width="100">退出信息</th>
 				        <th field="lastUpdated" width="100" formatter="formatterDate">最后更新时间</th>
+                        <th data-options="field:'operate',width:'15%',align:'center',formatter:operate_formatter">操作</th>
 				    </tr>
 				</thead>
 			</table>
@@ -170,11 +188,11 @@
 			</div> -->
 		</div>
 	<div id="dlg" title="任务详情" class="easyui-dialog" style="width:1000px;height:500px;background:gray" data-options="buttons:'#btns',closed:true">
-		<div id="tb2">
+		<!-- <div id="tb2">
 				<div class="btnbar-tools">
 					<a href="javascript:;" class="easyui-linkbutton" onclick="continueJob()"><i class="fa fa-check-circle yellow"></i>任务续跑</a>
 				</div>
-			</div>
+			</div> -->
 		<table id="dg2" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb2">
 				<thead>
 				    <tr>
@@ -187,6 +205,7 @@
 				        <th field="exitCode" width="100" formatter="formatterExitCode">退出状态</th>
 				        <th field="exitMessage" width="100">退出信息</th>
 				        <th field="lastUpdated" width="100" formatter="formatterDate">最后更新时间</th>
+                        <th data-options="field:'operate',width:'15%',align:'center',formatter:operate_formatter2">操作</th>
 				    </tr>
 				</thead>
 			</table>

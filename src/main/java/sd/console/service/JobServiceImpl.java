@@ -86,11 +86,16 @@ public class JobServiceImpl implements JobService {
 		JobTaskInfo jobTaskInfo = jobTaskInfoMapper.selectByPrimaryKey(id);
 		Map<String,String> map = new HashMap<>();
 		map.put("jobName", jobTaskInfo.getTaskName());
-		if(httpService.send(url+"stop", map)){
+		if("0".equals(jobTaskInfo.getTaskStatus())){
+			if(httpService.send(url+"stop", map)){
+				jobTaskInfoMapper.deleteByPrimaryKey(id);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
 			jobTaskInfoMapper.deleteByPrimaryKey(id);
 			return true;
-		} else {
-			return false;
 		}
 	}
 

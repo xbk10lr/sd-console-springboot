@@ -42,7 +42,8 @@
 		
 	});
 	
-	function runJob(){
+	function runJob(data){
+		 $('#dg').datagrid('selectRow',data);
 	  	 var row=$("#dg").datagrid("getSelected");
 		 if(row){
 		 	$.messager.confirm('确认','确定要手动运行该队列？',function(r){    
@@ -60,6 +61,11 @@
 		}); 
 		 }
 	  }
+	function operate_formatter(value, row, index) {
+        return "\
+		<a href='javascript:;' class='easyui-linkbutton' onclick='runJob("+index+")'><i class='fa fa-check-circle yellow'></i>运行</a>\
+		";
+    }
 </script>
 </head>
 <body scroll="no" class="body-pd10">
@@ -82,9 +88,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="btnbar-tools">
+				<!-- <div class="btnbar-tools">
 					<a href="javascript:;" class="easyui-linkbutton" onclick="runJob()"><i class="fa fa-check-circle yellow"></i>运行</a>
-				</div>
+				</div> -->
 			</div>
 			<table id="dg" class="easyui-datagrid" fitColumns="true" singleSelect="true" pagination="true" toolbar="#tb">
 				<thead>
@@ -98,6 +104,7 @@
 				        <th field="taskParam" width="100">任务参数</th>
 				        <th field="sysId" width="100">系统号</th>
 				        <th field="taskStatus" formatter="formatterTaskStatus" width="100">任务状态</th>
+				        <th data-options="field:'operate',width:'15%',align:'center',formatter:operate_formatter">操作</th>
 				    </tr>
 				</thead>
 			</table>
