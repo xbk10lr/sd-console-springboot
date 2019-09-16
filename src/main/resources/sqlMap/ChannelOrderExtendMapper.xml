@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sd.console.mapper.extend.ChannelOrderExtendMapper" >
+  <resultMap id="BaseResultMap" type="sd.console.dto.generate.ChannelOrder" >
+    <id column="ORDER_SEQ_NBR" property="orderSeqNbr" jdbcType="VARCHAR" />
+    <id column="TRANS_DATE" property="transDate" jdbcType="DATE" />
+    <result column="PAYER_NAME" property="payerName" jdbcType="VARCHAR" />
+    <result column="TRANS_AMT" property="transAmt" jdbcType="DECIMAL" />
+    <result column="CHANNEL_FEE_AMT" property="channelFeeAmt" jdbcType="DECIMAL" />
+    <result column="CHANNEL_CODE" property="channelCode" jdbcType="VARCHAR" />
+    <result column="PLAT_SEQ_NBR" property="platSeqNbr" jdbcType="VARCHAR" />
+    <result column="DOWN_SEQ_NBR" property="downSeqNbr" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="RETURN_MSG" property="returnMsg" jdbcType="VARCHAR" />
+    <result column="MER_NO" property="merNo" jdbcType="VARCHAR" />
+    <result column="TRANS_TIME" property="transTime" jdbcType="DATE" />
+    <result column="CHECK_DATE" property="checkDate" jdbcType="DATE" />
+    <result column="CHECK_STATUS" property="checkStatus" jdbcType="VARCHAR" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="CRT_DATE_TIME" property="crtDateTime" jdbcType="TIMESTAMP" />
+    <result column="DATE_LASTMAINT" property="dateLastmaint" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_SEQ_NBR, TRANS_DATE, PAYER_NAME, TRANS_AMT, CHANNEL_FEE_AMT, CHANNEL_CODE, 
+    PLAT_SEQ_NBR, DOWN_SEQ_NBR, RETURN_CODE, RETURN_MSG, MER_NO, TRANS_TIME, CHECK_DATE, 
+    CHECK_STATUS, ORDER_STATUS, CRT_DATE_TIME, DATE_LASTMAINT
+  </sql>
+  <select id="queryChannelOrder" resultMap="BaseResultMap" parameterType="sd.console.dto.common.ChannelOrderQuery" >
+    select 
+    <include refid="Base_Column_List" />
+    from CHANNEL_ORDER
+    where 1=1
+      <if test="orderSeqNbr != null and orderSeqNbr !=''" >
+        and ORDER_SEQ_NBR = #{orderSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="platSeqNbr != null and platSeqNbr !=''" >
+        and PLAT_SEQ_NBR = #{platSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="channelCode != null and channelCode != ''" >
+        and CHANNEL_CODE = #{channelCode,jdbcType=VARCHAR}
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        and CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+        and ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null" >
+        and TRANS_DATE <![CDATA[>=]]> #{startDate,jdbcType=DATE}
+      </if>
+      <if test="endDate != null" >
+        and TRANS_DATE <![CDATA[<=]]> #{endDate,jdbcType=DATE}
+      </if>
+    union all  
+    select 
+    <include refid="Base_Column_List" />
+    from CHANNEL_ORDER_PRE_CHECK
+    where 1=1 
+      <if test="orderSeqNbr != null and orderSeqNbr !=''" >
+        and ORDER_SEQ_NBR = #{orderSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="platSeqNbr != null and platSeqNbr !=''" >
+        and PLAT_SEQ_NBR = #{platSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="channelCode != null and channelCode != ''" >
+        and CHANNEL_CODE = #{channelCode,jdbcType=VARCHAR}
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        and CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+        and ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null" >
+        and TRANS_DATE <![CDATA[>=]]> #{startDate,jdbcType=DATE}
+      </if>
+      <if test="endDate != null" >
+        and TRANS_DATE <![CDATA[<=]]> #{endDate,jdbcType=DATE}
+      </if>
+    union all  
+    select 
+    <include refid="Base_Column_List" />
+    from CHANNEL_ORDER_HIST
+    where 1=1
+      <if test="orderSeqNbr != null and orderSeqNbr !=''" >
+        and ORDER_SEQ_NBR = #{orderSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="platSeqNbr != null and platSeqNbr !=''" >
+        and PLAT_SEQ_NBR = #{platSeqNbr,jdbcType=VARCHAR}
+      </if>
+      <if test="channelCode != null and channelCode != ''" >
+        and CHANNEL_CODE = #{channelCode,jdbcType=VARCHAR}
+      </if>
+      <if test="checkStatus != null and checkStatus != ''" >
+        and CHECK_STATUS = #{checkStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''" >
+        and ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="startDate != null" >
+        and TRANS_DATE <![CDATA[>=]]> #{startDate,jdbcType=DATE}
+      </if>
+      <if test="endDate != null" >
+        and TRANS_DATE <![CDATA[<=]]> #{endDate,jdbcType=DATE}
+      </if>
+  </select>
+</mapper>

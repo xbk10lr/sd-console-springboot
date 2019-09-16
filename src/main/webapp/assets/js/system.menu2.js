@@ -1,14 +1,4 @@
-﻿/*淘宝搜索店铺 酷设网 查看更多
-* 作者：Poya QQ：931989338
-* 购买: 定制主题
-* 微信：SoSoITCenter
-* 公众平台：SoSoIT
-* 讨论群：149663025
-* 广告：本人承接各类大中小型管理系统的软件的设计与前端开发、主题开发，有需要的朋友联系我啦
-* 模板：https://shop155629335.taobao.com/?spm=a230r.7195193.1997079397.2.diL9ud
-* 主题样式：开源版 
-*/
-var _menus_oneLeve=[{"menuid":"0","menuname":"批量管理","icon":"fa-home"},{"menuid":"1","menuname":"订单管理","icon":"fa-trophy"},{"menuid":"2","menuname":"差错管理","icon":"fa-inbox"},{"menuid":"3","menuname":"清算管理","icon":"fa-suitcase"}/*,{"menuid":"3","menuname":"文档帮助","icon":"fa-suitcase"},{"menuid":"4","menuname":"系统管理","icon":"fa-dropbox"}*/];
+﻿var _menus_oneLeve=[{"menuid":"0","menuname":"批量管理","icon":"fa-home"},{"menuid":"1","menuname":"订单管理","icon":"fa-trophy"},{"menuid":"2","menuname":"差错管理","icon":"fa-inbox"},{"menuid":"3","menuname":"清算管理","icon":"fa-suitcase"}/*,{"menuid":"3","menuname":"文档帮助","icon":"fa-suitcase"},{"menuid":"4","menuname":"系统管理","icon":"fa-dropbox"}*/];
 var _menus=[
     {"menuid":"00","icon":"fa-trophy","menuname":"日终任务管理",parentMenu:'0',
         "menus":[/*{"menuid":"000","menuname":"视图","icon":"fa-dashboard","url":"kanban.html"}*/
@@ -33,7 +23,7 @@ var _menus=[
                 {"menuid":"117","menuname":"两列面板表单","icon":"fa-columns","url":"demo/form2-column2.html"},*/
 			]},{
      "menuid":"12","icon":"fa-television","menuname":"通道订单管理",parentMenu:'1',
-        "menus":[{"menuid":"120","menuname":"通道订单查看","icon":"fa-globe","url":"https://item.taobao.com/item.htm?id=545823027227"},
+        "menus":[{"menuid":"120","menuname":"通道订单查看","icon":"fa-globe","url":"demo/showChannelOrder.html"},
                 /*{"menuid":"121","menuname":"设计作品","icon":"fa-laptop","url":"http://www.uimaker.com/member/index.php?uid=poya"},
                 {"menuid":"122","menuname":"成功作品","icon":"fa-laptop","url":"http://www.uedna.com/user/33963/"},
                 {"menuid":"122","menuname":"金典案例","icon":"fa-laptop","url":"http://www.zcool.com.cn/u/16062070"}*/
@@ -41,7 +31,7 @@ var _menus=[
     },
 	{"menuid":"21","icon":"fa-plug","menuname":"对账差错管理",parentMenu:'2',
 		"menus":[
-            {"menuid":"210","menuname":"对账差错查看","icon":"fa-toggle-down","url":"demo/msgTip.html"},
+            {"menuid":"210","menuname":"对账差错查看","icon":"fa-toggle-down","url":"demo/showCheckError.html"},
             /*{"menuid":"211","menuname":"提示条","icon":"fa-puzzle-piece","url":"demo/msgTip.html"},
             {"menuid":"212","menuname":"模态框","icon":"fa-desktop","url":"demo/msgTip.html"},
             {"menuid":"213","menuname":"弹出框","icon":"fa-window-restore","url":"demo/msgTip.html"},
@@ -68,12 +58,12 @@ var _menus=[
 		]
 	},*/
     {"menuid":"31","icon":"fa-suitcase","menuname":"商户清算管理",parentMenu:'3',
-    	"menus":[{"menuid":"311","menuname":"商户订单日统计","icon":"fa-inbox","url":"demo/msgTip.html"},
+    	"menus":[{"menuid":"310","menuname":"商户订单日统计","icon":"fa-inbox","url":"demo/showMerSum.html"}
     			/*{"menuid":"312","menuname":"我的分享","icon":"fa-share-alt-square","url":"demo/msgTip.html"}*/
     		]
     	},
 	 {"menuid":"32","icon":"fa-suitcase","menuname":"通道清算管理",parentMenu:'3',
-		"menus":[{"menuid":"311","menuname":"通道订单日统计","icon":"fa-inbox","url":"demo/msgTip.html"},
+		"menus":[{"menuid":"320","menuname":"通道订单日统计","icon":"fa-inbox","url":"demo/msgTip.html"},
 				/*{"menuid":"312","menuname":"我的分享","icon":"fa-share-alt-square","url":"demo/msgTip.html"}*/
 			]
 		},

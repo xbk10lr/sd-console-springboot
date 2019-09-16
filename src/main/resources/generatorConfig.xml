@@ -47,13 +47,15 @@
          <!-- enableSubPackages:是否让schema作为包的后缀 -->
          <property name="enableSubPackages" value="false" />
       </javaClientGenerator>
-
+<table tableName="CHANNEL_ORDER" domainObjectName="ChannelOrder"/>
+<table tableName="CHANNEL_ORDER_PRE_CHECK"/>
       <!-- 数据库表名字和我们的entity类对应的映射指定 -->
-      <table tableName="CHANNEL_ORDER" domainObjectName="ChannelOrder"/>
+     <!--  <table tableName="CHANNEL_ORDER" domainObjectName="ChannelOrder"/>
       <table tableName="MER_ORDER" domainObjectName="MerOrder"/>
-      <table tableName="CHANNEL_ORDER_HIST" domainObjectName="ChannelOrderHist"/>
-      <table tableName="MER_ORDER_HIST" domainObjectName="MerOrderHist"/>
-      <table tableName="DOWN_ORDER" domainObjectName="DownOrder"/>
+      <table tableName="CHANNEL_ORDER_HIST" domainObjectName="ChannelOrderHist"/> -->
+      <!-- <table tableName="MER_ORDER_HIST" domainObjectName="MerOrderHist"/> -->
+       <!-- <table tableName="CHANNEL_ORDER_HIST" domainObjectName="ChannelOrderHist"/> -->
+      <!-- <table tableName="DOWN_ORDER" domainObjectName="DownOrder"/>
       <table tableName="SYS_INFO" domainObjectName="SysInfo"/>
       <table tableName="CHECK_CHANNEL_REG" domainObjectName="CheckChannelReg"/>
       <table tableName="CHANNEL_ORDER_SUM" domainObjectName="ChannelOrderSum"/>
@@ -88,7 +90,7 @@
 	<table tableName="MER_ORDER_PRE_CHECK">
 	</table>
 	<table tableName="DOWN_ORDER_HIST">
-	</table>
+	</table> -->
 	
    </context>
 </generatorConfiguration>
