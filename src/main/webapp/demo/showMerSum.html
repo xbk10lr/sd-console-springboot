@@ -41,12 +41,12 @@
 		}else if($('#startDate').val()==null || $('#startDate').val()==""){
 			$('#dg').datagrid('load',{
 				merNo:$('#merNo').val(),
-		    	startDate:$('#startDate').val()
+				endDate:$('#endDate').val()
 		    });
 		}else if($('#endDate').val()==null || $('#endDate').val()==""){
 			$('#dg').datagrid('load',{
 				merNo:$('#merNo').val(),
-		    	endDate:$('#endDate').val()
+				startDate:$('#startDate').val()
 		    });
 		}else{
 			$('#dg').datagrid('load',{
@@ -76,8 +76,8 @@
 					<div class="screen-top">
 						<div class="colRow">
 							<input id="merNo" type="text" class="easyui-datebox" label="商户号" />
-							<input id="startDate" type="text" class="easyui-datebox" label="起始日期" />
-							<input id="endDate" type="text" class="easyui-datebox" label="结束日期" />
+							<input id="startDate" editable="false" type="text" class="easyui-datebox" label="起始日期" />
+							<input id="endDate" editable="false" type="text" class="easyui-datebox" label="结束日期" />
 						</div>
 						<div class="colRow">
 							<button class="easyui-linkbutton btnDefault" onclick="doSearch()">

@@ -7,6 +7,7 @@ import sd.console.dto.common.ErrorQuery;
 import sd.console.dto.common.OrderQuery;
 import sd.console.dto.common.QuerySum;
 import sd.console.dto.generate.ChannelOrder;
+import sd.console.dto.generate.ChannelOrderSum;
 import sd.console.dto.generate.CheckError;
 import sd.console.dto.generate.MerOrder;
 import sd.console.dto.generate.MerOrderSum;
@@ -20,6 +21,8 @@ public interface OrderService {
 	public List<CheckError> searchCheckError(ErrorQuery errorQuery,Integer page,Integer rows);
 	
 	public List<MerOrderSum> searchMerSum(QuerySum querySum,Integer page,Integer rows);
+
+	public List<ChannelOrderSum> searchChannelSum(QuerySum querySum,Integer page,Integer rows);
 
 
 }

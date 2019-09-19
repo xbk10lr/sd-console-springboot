@@ -63,7 +63,7 @@ var _menus=[
     		]
     	},
 	 {"menuid":"32","icon":"fa-suitcase","menuname":"通道清算管理",parentMenu:'3',
-		"menus":[{"menuid":"320","menuname":"通道订单日统计","icon":"fa-inbox","url":"demo/msgTip.html"},
+		"menus":[{"menuid":"320","menuname":"通道订单日统计","icon":"fa-inbox","url":"demo/showChannelSum.html"},
 				/*{"menuid":"312","menuname":"我的分享","icon":"fa-share-alt-square","url":"demo/msgTip.html"}*/
 			]
 		},

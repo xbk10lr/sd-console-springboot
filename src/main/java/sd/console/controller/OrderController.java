@@ -18,6 +18,7 @@ import sd.console.dto.common.ErrorQuery;
 import sd.console.dto.common.OrderQuery;
 import sd.console.dto.common.QuerySum;
 import sd.console.dto.generate.ChannelOrder;
+import sd.console.dto.generate.ChannelOrderSum;
 import sd.console.dto.generate.CheckError;
 import sd.console.dto.generate.MerOrder;
 import sd.console.dto.generate.MerOrderSum;
@@ -91,6 +92,23 @@ public class OrderController {
         PageHelper.startPage(page, rows);//设置数据库分页查询的范围
 		List<MerOrderSum> querySums = orderService.searchMerSum(querySum, page, rows);
         PageInfo<MerOrderSum> pageInfo=new PageInfo<>(querySums);
+		Map<String,Object> m=new HashMap<String,Object>();
+		m.put("total", pageInfo.getTotal());
+		m.put("rows", querySums);
+		JSONArray js=JSONArray.fromObject(m);
+		String res = js.toString();
+		log.info(js.toString());
+		return res.substring(1, res.length()-1);
+	}
+	
+	@RequestMapping("/searchChannelSum")
+	public String searchChannelSum(QuerySum querySum){
+		log.info(querySum.toString());
+		int page = querySum.getPage();
+		int rows = querySum.getRows();
+        PageHelper.startPage(page, rows);//设置数据库分页查询的范围
+		List<ChannelOrderSum> querySums = orderService.searchChannelSum(querySum, page, rows);
+        PageInfo<ChannelOrderSum> pageInfo=new PageInfo<>(querySums);
 		Map<String,Object> m=new HashMap<String,Object>();
 		m.put("total", pageInfo.getTotal());
 		m.put("rows", querySums);

@@ -12,11 +12,14 @@ import sd.console.dto.common.ErrorQuery;
 import sd.console.dto.common.OrderQuery;
 import sd.console.dto.common.QuerySum;
 import sd.console.dto.generate.ChannelOrder;
+import sd.console.dto.generate.ChannelOrderSum;
+import sd.console.dto.generate.ChannelOrderSumExample;
 import sd.console.dto.generate.CheckError;
 import sd.console.dto.generate.CheckErrorExample;
 import sd.console.dto.generate.MerOrder;
 import sd.console.dto.generate.MerOrderSum;
 import sd.console.dto.generate.MerOrderSumExample;
+import sd.console.mapper.ChannelOrderSumMapper;
 import sd.console.mapper.CheckErrorMapper;
 import sd.console.mapper.MerOrderSumMapper;
 import sd.console.mapper.extend.ChannelOrderExtendMapper;
@@ -36,6 +39,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private MerOrderSumMapper merOrderSumMapper;
+	
+	@Autowired
+	private ChannelOrderSumMapper channelOrderSumMapper;
 	
 	@Override
 	public List<MerOrder> searchMerOrder(OrderQuery orderQuery, Integer page, Integer rows) {
@@ -60,10 +66,11 @@ public class OrderServiceImpl implements OrderService {
 		if(StringUtil.isNotEmpty(errorQuery.getPlatSeqNbr())){
 			example.createCriteria().andPlatSeqNbrEqualTo(errorQuery.getPlatSeqNbr());
 		}
-		if(errorQuery.getEndDate()!=null){
+		if(errorQuery.getStartDate()!=null && errorQuery.getEndDate()!=null){
+			example.createCriteria().andClearDateBetween(errorQuery.getStartDate(), errorQuery.getEndDate());
+		} else if(errorQuery.getEndDate()!=null){
 			example.createCriteria().andClearDateLessThanOrEqualTo(errorQuery.getEndDate());
-		}
-		if(errorQuery.getStartDate()!=null){
+		} else if(errorQuery.getStartDate()!=null){
 			example.createCriteria().andClearDateGreaterThanOrEqualTo(errorQuery.getStartDate());
 		}
 		return checkErrorMapper.selectByExample(example);
@@ -75,13 +82,30 @@ public class OrderServiceImpl implements OrderService {
 		if(StringUtil.isNotEmpty(querySum.getMerNo())){
 			example.createCriteria().andMerNoEqualTo(querySum.getMerNo());
 		}
-		if(querySum.getEndDate()!=null){
+		if(querySum.getStartDate()!=null && querySum.getEndDate()!=null){
+			example.createCriteria().andClearDateBetween(querySum.getStartDate(), querySum.getEndDate());
+		} else if(querySum.getEndDate()!=null){
 			example.createCriteria().andClearDateLessThanOrEqualTo(querySum.getEndDate());
-		}
-		if(querySum.getStartDate()!=null){
+		} else if(querySum.getStartDate()!=null){
 			example.createCriteria().andClearDateGreaterThanOrEqualTo(querySum.getStartDate());
 		}
 		return merOrderSumMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<ChannelOrderSum> searchChannelSum(QuerySum querySum, Integer page, Integer rows) {
+		ChannelOrderSumExample example = new ChannelOrderSumExample();
+		if(StringUtil.isNotEmpty(querySum.getChannelCode())){
+			example.createCriteria().andChannelCodeEqualTo(querySum.getChannelCode());
+		}
+		if(querySum.getStartDate()!=null && querySum.getEndDate()!=null){
+			example.createCriteria().andClearDateBetween(querySum.getStartDate(), querySum.getEndDate());
+		} else if(querySum.getEndDate()!=null){
+			example.createCriteria().andClearDateLessThanOrEqualTo(querySum.getEndDate());
+		} else if(querySum.getStartDate()!=null){
+			example.createCriteria().andClearDateGreaterThanOrEqualTo(querySum.getStartDate());
+		}
+		return channelOrderSumMapper.selectByExample(example);
 	}
 
 }

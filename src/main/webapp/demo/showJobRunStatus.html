@@ -43,13 +43,13 @@
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
 		    	jobInstanceId:$('#jobInstanceId').val(),
-		    	startDate:$('#startDate').val()
+		    	endDate:$('#endDate').val()
 		    });
 		}else if($('#endDate').val()==null || $('#endDate').val()==""){
 			$('#dg').datagrid('load',{
 		    	taskName:$('#taskName').val(),
 		    	jobInstanceId:$('#jobInstanceId').val(),
-		    	endDate:$('#endDate').val()
+		    	startDate:$('#startDate').val()
 		    });
 		}else{
 			$('#dg').datagrid('load',{
@@ -146,8 +146,8 @@
 						<div class="colRow">
 							<input id="taskName" type="text" class="easyui-textbox" label="任务名称"/>
 							<input id="jobInstanceId" type="text" class="easyui-textbox" label="任务实例编号"/>
-							<input id="startDate" type="text" class="easyui-datebox" label="起始日期" />
-							<input id="endDate" type="text" class="easyui-datebox" label="结束日期" />
+							<input id="startDate" editable="false" type="text" class="easyui-datebox" label="起始日期" />
+							<input id="endDate" editable="false" type="text" class="easyui-datebox" label="结束日期" />
 						</div>
 						<div class="colRow">
 							<button class="easyui-linkbutton btnDefault" onclick="doSearch()">
