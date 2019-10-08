@@ -1,4 +1,4 @@
-﻿var _menus_oneLeve=[{"menuid":"0","menuname":"批量管理","icon":"fa-home"},{"menuid":"1","menuname":"订单管理","icon":"fa-trophy"},{"menuid":"2","menuname":"差错管理","icon":"fa-inbox"},{"menuid":"3","menuname":"清算管理","icon":"fa-suitcase"}/*,{"menuid":"3","menuname":"文档帮助","icon":"fa-suitcase"},{"menuid":"4","menuname":"系统管理","icon":"fa-dropbox"}*/];
+﻿var _menus_oneLeve=[{"menuid":"0","menuname":"批量管理","icon":"fa-home"},{"menuid":"1","menuname":"订单管理","icon":"fa-trophy"},{"menuid":"2","menuname":"差错管理","icon":"fa-inbox"},{"menuid":"3","menuname":"清算管理","icon":"fa-suitcase"},{"menuid":"4","menuname":"人员管理","icon":"fa-dropbox"}/*,{"menuid":"3","menuname":"文档帮助","icon":"fa-suitcase"},{"menuid":"4","menuname":"系统管理","icon":"fa-dropbox"}*/];
 var _menus=[
     {"menuid":"00","icon":"fa-trophy","menuname":"日终任务管理",parentMenu:'0',
         "menus":[/*{"menuid":"000","menuname":"视图","icon":"fa-dashboard","url":"kanban.html"}*/
@@ -43,10 +43,10 @@ var _menus=[
             {"menuid":"219","menuname":"EasyUI表格","icon":"fa-th","url":"demo/msgTip.html"}*/
 		]
 	},
-	/*{"menuid":"22","icon":"fa-cubes","menuname":"系统组件管理",parentMenu:'2',
-		"menus":[{"menuid":"220","menuname":"SVG图标库","icon":"fa-dot-circle-o","url":"demo/inonSvg.html"},
-			{"menuid":"221","menuname":"输入框类","icon":"fa-sticky-note","url":"demo/msgTip.html"},
-            {"menuid":"222","menuname":"手风琴","icon":"fa-window-minimize","url":"demo/msgTip.html"},
+	{"menuid":"41","icon":"fa-cubes","menuname":"管理员管理",parentMenu:'4',
+		"menus":[{"menuid":"410","menuname":"新增管理员","icon":"fa-dot-circle-o","url":""},
+			{"menuid":"411","menuname":"编辑管理员信息","icon":"fa-sticky-note","url":""}
+            /*{"menuid":"222","menuname":"手风琴","icon":"fa-window-minimize","url":"demo/msgTip.html"},
             {"menuid":"223","menuname":"分页","icon":"fa-sort-numeric-asc","url":"demo/msgTip.html"},
             {"menuid":"224","menuname":"标签","icon":"fa-bookmark","url":"demo/msgTip.html"},
             {"menuid":"225","menuname":"缩略图","icon":"fa-image","url":"demo/msgTip.html"},
@@ -54,9 +54,9 @@ var _menus=[
             {"menuid":"227","menuname":"进度条","icon":"fa-sliders","url":"demo/msgTip.html"},
             {"menuid":"228","menuname":"列表组","icon":"fa-navicon","url":"demo/msgTip.html"},
             {"menuid":"229","menuname":"面版","icon":"fa-th-large","url":"demo/msgTip.html"},
-            {"menuid":"2201","menuname":"树","icon":"fa-sitemap","url":"comp/msgTip.html"}
+            {"menuid":"2201","menuname":"树","icon":"fa-sitemap","url":"comp/msgTip.html"}*/
 		]
-	},*/
+	},
     {"menuid":"31","icon":"fa-suitcase","menuname":"商户清算管理",parentMenu:'3',
     	"menus":[{"menuid":"310","menuname":"商户订单日统计","icon":"fa-inbox","url":"demo/showMerSum.html"}
     			/*{"menuid":"312","menuname":"我的分享","icon":"fa-share-alt-square","url":"demo/msgTip.html"}*/
@@ -67,7 +67,7 @@ var _menus=[
 				/*{"menuid":"312","menuname":"我的分享","icon":"fa-share-alt-square","url":"demo/msgTip.html"}*/
 			]
 		},
-	{"menuid":"41","icon":"fa-dashboard","menuname":"系统仪表板",parentMenu:'4',
+	/*{"menuid":"41","icon":"fa-dashboard","menuname":"系统仪表板",parentMenu:'4',
 		"menus":[
 			{"menuid":"411","menuname":"系统管理","icon":"fa-id-card","url":"demo/resource.html"},
 			{"menuid":"412","menuname":"表单示例","icon":"fa-users","url":"demo/msgTip.html"},
@@ -75,7 +75,7 @@ var _menus=[
 			{"menuid":"414","menuname":"权限设置","icon":"fa-user-plus","url":"demo/msgTip.html"},
 			{"menuid":"415","menuname":"升级日志","icon":"fa-list","url":"https://blog.csdn.net/DJCBPL/article/details/80281869"}
 		]
-	}
+	}*/
 		
 ];
 
